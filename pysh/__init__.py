@@ -1,28 +1,33 @@
 import subprocess
 
 
+class Output(object):
+    def __init__(self, output):
+        self.output = output
+
+    def p(self):
+        print(self.output.decode())
+
+    def lines(self):
+        return self.output.splitlines()
+
+    def __repr__(self):
+        return self.output.decode()
+
+
 class _Wrap(object):
     def __init__(self, cmd):
         self.cmd = cmd
 
     def __call__(self, *args, **kwargs):
         cmd_args = [self.cmd]
-        cmd_args.extend(args)
-        for key, value in kwargs.items():
-            option_name = key.replace('_', '--')
-
-            if value == False:
-                option_name = 'no-' + option_name
-
-            if len(key) == 1:
-                option_name = '-' + option_name
+        for arg in args:
+            if type(arg) in (list, tuple):
+                cmd_args.extend(arg)
             else:
-                option_name = '--' + option_name
-
-            cmd_args.append(option_name)
-            if type(value) is not bool:
-                cmd_args.append(str(value))
-        return subprocess.check_output(cmd_args).decode()
+                cmd_args.append(str(arg))
+        out = subprocess.check_output(cmd_args)
+        return Output(out)
 
 
 def wrap(cmd):
