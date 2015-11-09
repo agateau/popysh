@@ -1,12 +1,10 @@
+import os
 import subprocess
 
 
 class Output(object):
     def __init__(self, output):
         self.output = output
-
-    def p(self):
-        print(self.output.decode())
 
     def lines(self):
         return self.output.splitlines()
@@ -32,3 +30,11 @@ class _Wrap(object):
 
 def wrap(cmd):
     return _Wrap(cmd)
+
+
+class SystemCommands(object):
+    def __init__(self):
+        for dirs in os.environ['PATH'].split(':'):
+            for name in os.listdir(dirs):
+                cmd_name = name.replace('-', '_')
+                setattr(self, cmd_name, wrap(name))
