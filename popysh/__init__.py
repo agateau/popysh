@@ -1,8 +1,6 @@
 import os
 import shutil
 
-from popysh.systemcommands import SystemCommands
-
 
 cd = os.chdir
 cp = shutil.copyfile
@@ -21,6 +19,3 @@ def mkdir(dirname, parents=False, mode=0o777):
         os.makedirs(dirname, mode=mode, exist_ok=True)
     else:
         os.mkdir(dirname, mode=mode)
-
-
-syscmd = SystemCommands()

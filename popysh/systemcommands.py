@@ -32,9 +32,10 @@ def wrap(cmd):
     return _Wrap(cmd)
 
 
-class SystemCommands(object):
-    def __init__(self):
-        for dirs in os.environ['PATH'].split(':'):
-            for name in os.listdir(dirs):
-                cmd_name = name.replace('-', '_')
-                setattr(self, cmd_name, wrap(name))
+def _wrap_system_commands():
+    for dirs in os.environ['PATH'].split(':'):
+        for name in os.listdir(dirs):
+            cmd_name = name.replace('-', '_')
+            globals()[cmd_name] = wrap(name)
+
+_wrap_system_commands()
