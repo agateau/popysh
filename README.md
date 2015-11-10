@@ -18,3 +18,7 @@ Easy integration with Python:
     from popysh.systemcommands import find
     for idx, line in enumerate(find('-name', '*.py').lines()):
         print('{} {}'.format(idx, line.decode()))
+
+# Tests
+
+Run `nosetests` from root dir
