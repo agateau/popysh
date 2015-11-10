@@ -33,7 +33,7 @@ def wrap(cmd):
 
 
 def _wrap_system_commands():
-    for dirs in os.environ['PATH'].split(':'):
+    for dirs in os.environ['PATH'].split(os.pathsep):
         for name in os.listdir(dirs):
             cmd_name = name.replace('-', '_')
             globals()[cmd_name] = wrap(name)
